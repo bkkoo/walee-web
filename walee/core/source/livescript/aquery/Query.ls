@@ -39,7 +39,7 @@ qx.Class.define \wl.core.aquery.Query,
       (if @[expr.0]? then that else @[\+]).call(@, expr, path)
 
     \^ : (_ref)->
-      [ref0, def-attrs-flag] = _ref.split(\*)
+      [ref0, def-attrs-flag] = _ref.split(\:)
       ref = ref0.slice(1)
       reg = @get-factory-reg!
       

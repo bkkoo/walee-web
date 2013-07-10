@@ -11,8 +11,16 @@ qx.Class.define \wl.core.aquery.Base,
     @base(arguments)
 
     if @alias
+
       reg = @get-reg!
-      alias = name.split(\.).reverse!.reduce(((a, b) -> r = {"#b":a}), @alias)
+
+      alias = (
+        if name
+          name.split(\.).reverse!.reduce(((a, b) -> r = {"#b":a}), @alias)
+        else
+          @alias
+      )
+
       queue = [[alias, void]]
 
       registers =
@@ -34,6 +42,11 @@ qx.Class.define \wl.core.aquery.Base,
 
   members:
 
+    _singleOf: (arg, factory) ->
+      ref = if @_singleInstanceRef? then that else @_singleInstanceRef = {}
+      name = arg[0].factory-ref
+      if ref[name] then that else ref[name] = factory.apply(@, arg)
+
     get-reg: ->
       @self(arguments).registry
 
@@ -51,9 +64,17 @@ qx.Class.define \wl.core.aquery.Base,
       fn
 
     _reg-fn: (reg, rec) ->
-      key = rec.key
-      if !!reg[key] then @error "Factory alias for `#{key}` is already exist!"
-      reg[key] = @__asFactory(rec.v, key, rec.path)
+      [key, fn] = (
+        if rec.key.slice(-1) == \$
+          * rec.key.slice(0, -1),
+            -> @_singleOf(arguments, rec.v)
+        else
+          * rec.key
+            rec.v
+      )
+
+      if !!reg[key] then @warn "Existing factory alias `#{key}` will be overriden!"
+      reg[key] = @__asFactory(fn, key, rec.path)
 
     _reg-obj: (reg, queue, rec) ->
       key = rec.key

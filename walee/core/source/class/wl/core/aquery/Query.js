@@ -44,7 +44,7 @@ qx.Class.define('wl.core.aquery.Query', {
     },
     '^': function(_ref){
       var ref$, ref0, defAttrsFlag, ref, reg, fn, qInfo;
-      ref$ = _ref.split('*'), ref0 = ref$[0], defAttrsFlag = ref$[1];
+      ref$ = _ref.split(':'), ref0 = ref$[0], defAttrsFlag = ref$[1];
       ref = ref0.slice(1);
       reg = this.getFactoryReg();
       if (fn = reg[ref]) {

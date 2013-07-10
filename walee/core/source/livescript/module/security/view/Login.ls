@@ -23,30 +23,31 @@ qx.Class.define \wl.core.module.security.view.Login,
 
 
     _createComponent: (name) ->
-      q = @aquery!(\^ui)
+      ui = @aquery!(\^ui)
+      form = ui(\form)
 
       switch name
 
         |\username =>
-          (q \form.txt*)(name)!
+          form(\txt:)(name)!
 
         |\password =>
-          (q \form.txtPassword*)(name)!
+          form(\txtPassword:)(name)!
 
-        |\login-btn =>
-          (q \form.button*)(name)(@tr(\login))
+        |\btn-login =>
+          form(\button:)(name)(@tr(\login))
             ..addListener \click, @_bindAction(\login)
             ..
 
         |\root-slot =>
-          root-slot = (q \box.composite*)(\root-slot)(\canvas)
+          root-slot = (ui \box.composite:)(\root-slot)(\canvas)
 
         |\content-slot =>
-          (q \groupbox.box*)(\content-slot)("","",\grow)
+          (ui \groupbox.box:)(\content-slot)("","",\grow)
             @_setContentSlotLayout(.., @_getComponent(\root-slot))
             ..
 
-    _setContentSlotLayout:(root-slot, content-slot) ->
+    _setContentSlotLayout:(content-slot, root-slot) ->
 
       re-layout = (->
         content-slot.setLayoutProperties(

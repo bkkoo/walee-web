@@ -10,10 +10,12 @@ qx.Class.define('wl.core.aquery.Base', {
     this.base(arguments);
     if (this.alias) {
       reg = this.getReg();
-      alias = name.split('.').reverse().reduce(function(a, b){
-        var r, ref$;
-        return r = (ref$ = {}, ref$[b + ""] = a, ref$);
-      }, this.alias);
+      alias = name
+        ? name.split('.').reverse().reduce(function(a, b){
+          var r, ref$;
+          return r = (ref$ = {}, ref$[b + ""] = a, ref$);
+        }, this.alias)
+        : this.alias;
       queue = [[alias, void 8]];
       registers = [
         [
@@ -50,6 +52,18 @@ qx.Class.define('wl.core.aquery.Base', {
     }
   },
   members: {
+    _singleOf: function(arg, factory){
+      var ref, that, name;
+      ref = (that = this._singleInstanceRef) != null
+        ? that
+        : this._singleInstanceRef = {};
+      name = arg[0].factoryRef;
+      if (that = ref[name]) {
+        return that;
+      } else {
+        return ref[name] = factory.apply(this, arg);
+      }
+    },
     getReg: function(){
       return this.self(arguments).registry;
     },
@@ -70,12 +84,18 @@ qx.Class.define('wl.core.aquery.Base', {
       return fn;
     },
     _regFn: function(reg, rec){
-      var key;
-      key = rec.key;
+      var ref$, key, fn;
+      ref$ = rec.key.slice(-1) === '$'
+        ? [
+          rec.key.slice(0, -1), function(){
+            return this._singleOf(arguments, rec.v);
+          }
+        ]
+        : [rec.key, rec.v], key = ref$[0], fn = ref$[1];
       if (!!reg[key]) {
-        this.error("Factory alias for `" + key + "` is already exist!");
+        this.warn("Existing factory alias `" + key + "` will be overriden!");
       }
-      return reg[key] = this.__asFactory(rec.v, key, rec.path);
+      return reg[key] = this.__asFactory(fn, key, rec.path);
     },
     _regObj: function(reg, queue, rec){
       var key;

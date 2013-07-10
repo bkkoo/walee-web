@@ -14,13 +14,11 @@ qx.Class.define("wl.be.app.Application", {
     },
     __loadAlias: function(){
       wl.core.alias.Ui.getInstance();
-      wl.core.alias.Ctrl.getInstance();
-      wl.be.app.alias.View.getInstance();
-      wl.be.app.alias.Ctrl.getInstance();
+      wl.be.app.Alias.getInstance();
     },
     __start: function(q){
       var x$;
-      x$ = q('^ctrl.security')();
+      x$ = q('^security.ctrl.main')();
       x$.subscribe('authenticate.success', this.__loadDesktop.bind(this));
       x$.loginPrompt();
     },

@@ -24,12 +24,10 @@ qx.Class.define "wl.be.app.Application",
 
     __load-alias: !->
       wl.core.alias.Ui.getInstance!
-      wl.core.alias.Ctrl.getInstance!
-      wl.be.app.alias.View.getInstance!
-      wl.be.app.alias.Ctrl.getInstance!
+      wl.be.app.Alias.getInstance!
 
     __start:!(q) ->
-      (q \^ctrl.security)!
+      (q \^security.ctrl.main)!
         ..subscribe(\authenticate.success, (@__loadDesktop).bind(@))
         ..login-prompt!
 

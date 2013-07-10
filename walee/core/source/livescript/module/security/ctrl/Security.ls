@@ -21,4 +21,4 @@ qx.Class.define \wl.core.module.security.ctrl.Security,
       @channel.subscribe(topic, callback)
 
     loginPrompt: ->
-      @aquery!(\^ctrl.login)!.prompt!
+      @aquery!(\^security.ctrl.login)!.prompt!

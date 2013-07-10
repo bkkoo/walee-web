@@ -19,7 +19,7 @@ qx.Class.define \wl.be.app.view.Login,
           form = (q \^ui.form.form)!
 
           [\username, \password].forEach((->
-            form.add @_getComponent(it), @tr(it)
+            form.add(@_getComponent(it), @tr(it))
           ),@)
 
           @_getComponent(\btn-login)

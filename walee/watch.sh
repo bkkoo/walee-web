@@ -1,8 +1,8 @@
 #!/bin/bash
 touch /tmp/walee_watch.pid
 echo $$ > /tmp/walee_watch.pid
-project_name=beweb
-project_dir=~/Development/walee/$project_name/src/main/webapp/walee
+project_name=web
+project_dir=~/Development/walee/$project_name/walee
 app_root=$project_dir/be/app
 
 be_project_dir=$project_dir/be

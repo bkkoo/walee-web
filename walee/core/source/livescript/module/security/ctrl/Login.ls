@@ -6,7 +6,7 @@ qx.Class.define \wl.core.module.security.ctrl.Login,
     wl.core.aquery.MQuery
 
   construct: !->
-    @view = @aquery!(\^view.login)!
+    @view = @aquery!(\^security.view.login)!
       ..subscribe(\action-login, @_login.bind(@))
 
     @securityChannel = postal.channel(\security.event)

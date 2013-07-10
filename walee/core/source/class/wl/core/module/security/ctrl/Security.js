@@ -21,7 +21,7 @@ qx.Class.define('wl.core.module.security.ctrl.Security', {
       return this.channel.subscribe(topic, callback);
     },
     loginPrompt: function(){
-      return this.aquery()('^ctrl.login')().prompt();
+      return this.aquery()('^security.ctrl.login')().prompt();
     }
   }
 });

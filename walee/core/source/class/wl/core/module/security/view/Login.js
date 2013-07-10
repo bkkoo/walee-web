@@ -26,29 +26,30 @@ qx.Class.define('wl.core.module.security.view.Login', {
       }
     },
     _createComponent: function(name){
-      var q, x$, rootSlot, y$;
-      q = this.aquery()('^ui');
+      var ui, form, x$, rootSlot, y$;
+      ui = this.aquery()('^ui');
+      form = ui('form');
       switch (name) {
       case 'username':
-        return q('form.txt*')(name)();
+        return form('txt:')(name)();
       case 'password':
-        return q('form.txtPassword*')(name)();
-      case 'login-btn':
-        x$ = q('form.button*')(name)(this.tr('login'));
+        return form('txtPassword:')(name)();
+      case 'btn-login':
+        x$ = form('button:')(name)(this.tr('login'));
         x$.addListener('click', this._bindAction('login'));
         x$;
         return x$;
         break;
       case 'root-slot':
-        return rootSlot = q('box.composite*')('root-slot')('canvas');
+        return rootSlot = ui('box.composite:')('root-slot')('canvas');
       case 'content-slot':
-        y$ = q('groupbox.box*')('content-slot')("", "", 'grow');
+        y$ = ui('groupbox.box:')('content-slot')("", "", 'grow');
         this._setContentSlotLayout(y$, this._getComponent('root-slot'));
         y$;
         return y$;
       }
     },
-    _setContentSlotLayout: function(rootSlot, contentSlot){
+    _setContentSlotLayout: function(contentSlot, rootSlot){
       var reLayout;
       reLayout = function(){
         return contentSlot.setLayoutProperties(this._setContentSlotLayoutImpl(rootSlot.getBounds(), contentSlot));

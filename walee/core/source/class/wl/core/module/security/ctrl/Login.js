@@ -3,7 +3,7 @@ qx.Class.define('wl.core.module.security.ctrl.Login', {
   include: wl.core.aquery.MQuery,
   construct: function(){
     var x$, y$;
-    x$ = this.view = this.aquery()('^view.login')();
+    x$ = this.view = this.aquery()('^security.view.login')();
     x$.subscribe('action-login', this._login.bind(this));
     y$ = this.securityChannel = postal.channel('security.event');
     y$.subscribe('authenticate.success', this._authenticate.success.bind(this));
