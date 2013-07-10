@@ -1,0 +1,115 @@
+{
+  "name"    : "app",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "source-all",
+    "source-hybrid",    
+    "simulation-build",
+    "simulation-run",
+    "test",
+    "test-source",
+    "translation"
+  ],
+  
+  "default-job" : "source-hybrid",
+
+  "let" :
+  {
+    "APPLICATION"  : "wl.be.app",
+    "QOOXDOO_PATH" : "../../../org/qooxdoo",
+    "QXTHEME"      : "wl.be.app.theme.Theme",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+     "source" : {
+         "extend" : [ "source-hybrid" ],
+         "add-script": [
+             { "uri": "../../../../jquery/jquery-1.8.3.js" },
+             { "uri": "../../../../prelude/prelude-browser-min-1.0.0.js" },
+             { "uri": "../../../../jslibs/underscore-min.js" },
+             { "uri": "../../../../d3/d3.v3.js" },
+             { "uri": "../../../../spin.min.js" },
+             { "uri": "../../../../cujojs/meld/meld.js" },
+             { "uri": "../../../../jslibs/machina.js" },
+             { "uri": "../../../../jslibs/postal.js" },
+             { "uri": "../../../../jslibs/machina.postal.js" }
+         ],
+         "add-css" : [
+           { "uri" : "../../../../walee.css" }
+         ]
+
+     },
+     "libraries" : {
+        "library" : [
+
+          { "manifest" : "../../core/Manifest.json" }
+          ,
+          { "manifest" : "../../lang/Manifest.json" }
+
+        ]
+     },
+     "build" : {
+       "extend": ["source", "build-all"]
+     }
+    // Uncomment the following entry to add a contrib or library to your
+    // project; make sure to adapt the path to the Manifest.json; if you are
+    // using a contrib: library, it will be downloaded into the path specified
+    // by the 'cache/downloads' config key
+    /*
+    "libraries" : 
+    {
+      "library" :
+      [
+        {
+          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
+        }
+      ]
+    }
+    */
+
+    // If you want to tweak a job setting, see the following sample where
+    // the "format" feature of the "build-script" job is overridden.
+    // To see a list of available jobs, invoke 'generate.py x'.
+	/*
+    ,"build-script" :
+    {
+      "compile-options" : 
+      {
+        "code" :
+        {
+          "format" : false
+        }
+      }
+    }
+    */
+  }
+}
